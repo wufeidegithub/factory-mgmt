@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}总看板 · 工厂管理系统{% endblock %}
+
+{% block content %}
+<h1>总看板</h1>
+<p class="date">数据日期：{{ today|date:"Y年n月j日" }}</p>
+
+<section class="stats">
+  {% for s in stats %}
+  <div class="stat-card">
+    <span class="stat-label">{{ s.label }}</span>
+    <span class="stat-value">{{ s.value }}<small>{{ s.unit }}</small></span>
+  </div>
+  {% endfor %}
+</section>
+
+<section class="panel">
+  <h2>最近工单</h2>
+  {% if recent_orders %}
+  <table>
+    <thead>
+      <tr>
+        <th>工单号</th>
+        <th>产品</th>
+        <th>计划</th>
+        <th>已完成</th>
+        <th>进度</th>
+        <th>状态</th>
+        <th>计划完工</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in recent_orders %}
+      <tr{% if o.is_overdue %} class="overdue"{% endif %}>
+        <td>{{ o.order_no }}</td>
+        <td>{{ o.product.name }}</td>
+        <td>{{ o.plan_qty }}</td>
+        <td>{{ o.done_qty }}</td>
+        <td>
+          <div class="bar"><div class="bar-fill" style="width:{% widthratio o.progress 1 100 %}%"></div></div>
+          <small>{% widthratio o.progress 1 100 %}%</small>
+        </td>
+        <td>{{ o.get_status_display }}</td>
+        <td>{{ o.due_date|date:"Y-m-d"|default:"—" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty">暂无工单数据。可先到 <a href="/admin/production/workorder/add/">后台</a> 录入。</p>
+  {% endif %}
+</section>
+{% endblock %}

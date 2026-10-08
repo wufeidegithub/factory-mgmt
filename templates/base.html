@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}工厂管理系统{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{% url 'core:dashboard' %}">工厂管理系统</a>
+    <nav>
+      <a href="{% url 'core:dashboard' %}">总看板</a>
+      <a href="/admin/inventory/material/">物料</a>
+      <a href="/admin/production/workorder/">工单</a>
+      <a href="/admin/quality/inspection/">质检</a>
+      <a href="/admin/equipment/equipment/">设备</a>
+      <a href="/admin/hr/shiftSchedule/">排班</a>
+      <a class="admin-link" href="/admin/">后台</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    工厂管理系统 · Django {{ django_version|default:"5.x" }}
+  </footer>
+</body>
+</html>

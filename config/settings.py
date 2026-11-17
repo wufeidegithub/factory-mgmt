@@ -37,6 +37,11 @@ SECRET_KEY = env("DJANGO_SECRET_KEY", "dev-only-change-me-in-production")
 DEBUG = env_bool("DJANGO_DEBUG", True)
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1") or ["*"]
 
+# 部署在反向代理 / GitHub Codespaces 之后时，浏览器发起的 POST 会带上外部域名的
+# Origin 头，必须显式信任，否则 Admin 登录会被 CSRF 校验拦下（403）。
+#   例：DJANGO_CSRF_TRUSTED_ORIGINS=https://*.app.github.dev,https://factory.example.com
+CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS", "")
+
 # ------------------------------------------------------------
 # 应用
 # ------------------------------------------------------------

@@ -16,7 +16,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "pip install -r requirements.txt && ([ -f .env ] || cp .env.example .env) && python manage.py makemigrations --noinput && python manage.py migrate --noinput && echo '初始化完成。下一步: python manage.py createsuperuser 然后 python manage.py runserver 0.0.0.0:8000'",
+  "postCreateCommand": "pip install -r requirements.txt && ([ -f .env ] || cp .env.example .env) && python manage.py migrate --noinput && echo '初始化完成。下一步: python manage.py createsuperuser 然后 python manage.py runserver 0.0.0.0:8000'",
   "customizations": {
     "vscode": {
       "extensions": [

@@ -38,7 +38,8 @@ class Equipment(TimeStampedModel):
 
         if not self.next_maintenance:
             return False
-        return self.next_maintenance <= timezone.localdate()
+        # 同 WorkOrder.is_overdue：USE_TZ=False 下不能用 localdate()
+        return self.next_maintenance <= timezone.now().date()
 
 
 class MaintenanceLog(TimeStampedModel):

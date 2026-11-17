@@ -65,7 +65,10 @@ class WorkOrder(TimeStampedModel):
 
         if not self.due_date or self.status in {self.Status.DONE, self.Status.CANCELLED}:
             return False
-        return self.due_date < timezone.localdate()
+        # 注意：本项目 USE_TZ=False，timezone.now() 返回 naive datetime，
+        # 此时 localdate() 会抛 ValueError("localtime() cannot be applied to a
+        # naive datetime")，必须用 now().date()。
+        return self.due_date < timezone.now().date()
 
 
 class ProductionReport(TimeStampedModel):

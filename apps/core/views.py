@@ -39,7 +39,7 @@ def dashboard(request):
     ]
 
     context = {
-        "today": timezone.localdate(),
+        "today": timezone.now().date(),
         "stats": stats,
         "recent_orders": WorkOrder.objects.select_related("product").order_by("-created_at")[:10],
     }

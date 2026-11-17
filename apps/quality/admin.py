@@ -33,10 +33,13 @@ class InspectionAdmin(admin.ModelAdmin):
 
     @admin.display(description="不良率")
     def defect_rate_display(self, obj: Inspection) -> str:
-        rate = obj.defect_rate
+        rate = obj.defect_rate or 0
         # 不良率超过 5% 标红
         color = "#d32f2f" if rate > 0.05 else "#2e7d32"
-        return format_html('<span style="color:{}">{:.2%}</span>', color, rate)
+        # 注意：format_html 会把每个参数 conditional_escape 成 SafeString，
+        # 此时再对参数套 {:.2%} 会抛 ValueError（str 不支持 '%' 格式），
+        # 因此必须先把数字格式化成字符串再传入。
+        return format_html('<span style="color:{}">{}</span>', color, f"{rate:.2%}")
 
 
 @admin.register(DefectRecord)
